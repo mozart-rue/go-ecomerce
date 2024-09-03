@@ -8,11 +8,11 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/mozart-rue/go-ecomerce/cmd/api"
 	"github.com/mozart-rue/go-ecomerce/config"
-	"github.com/mozart-rue/go-ecomerce/db"
+	// "github.com/mozart-rue/go-ecomerce/db"
 )
 
 func main() {
-	db, err := db.NewMySqlStorage(mysql.Config{
+	cfg := mysql.Config{
 		User:                 config.Envs.DBUser,
 		Passwd:               config.Envs.DBPassword,
 		Addr:                 config.Envs.DBAddress,
@@ -20,13 +20,25 @@ func main() {
 		Net:                  "tcp",
 		AllowNativePasswords: true,
 		ParseTime:            true,
-	})
+	}
+
+	db, err := sql.Open("mysql", cfg.FormatDSN())
+	// db, err := db.NewMySqlStorage(
+	// mysql.Config{
+	// 	User:                 config.Envs.DBUser,
+	// 	Passwd:               config.Envs.DBPassword,
+	// 	Addr:                 config.Envs.DBAddress,
+	// 	DBName:               config.Envs.DBName,
+	// 	Net:                  "tcp",
+	// 	AllowNativePasswords: true,
+	// 	ParseTime:            true,
+	// })
 	if err != nil {
 		fmt.Println(" Erro ao connectar ao banco")
 		log.Fatal(err)
 	}
 
-	initStorage(db)
+	//initStorage(db)
 
 	server := api.NewApiServer(":8080", db)
 	if err := server.Run(); err != nil {
@@ -35,6 +47,7 @@ func main() {
 }
 
 func initStorage(db *sql.DB) {
+	// err := db.Ping()
 	err := db.Ping()
 	if err != nil {
 		fmt.Println(" Erro ao fazer PING ao banco")
