@@ -28,10 +28,10 @@ func initConfig() Config {
 	return Config{
 		Host:       getEnv("HOST", "http://localhost"),
 		Port:       getEnv("PORT", "8080"),
-		DBUser:     getEnv("DBUSER", "root"),
-		DBPassword: getEnv("DBPassword", "docker"),
+		DBUser:     getEnv("DBUSER", "gouser"),
+		DBPassword: getEnv("DBPassword", "gokey"),
 		// DBAddress:  fmt.Sprintf("%s:%s", getEnv("HOST", "127.0.0.1"), getEnv("DBPORT", "4482")),
-		DBAddress: getEnv("DBAddress", "localhost:4482"),
+		DBAddress: getEnv("DBAddress", "127.0.0.1:3306"),
 		DBName:    getEnv("DBName", "ecom"),
 	}
 }
